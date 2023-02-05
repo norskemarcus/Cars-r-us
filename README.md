@@ -4,9 +4,9 @@
 
 Many of the solutions to individual weeks, can be found in a branch for the given week
 
-## How to get YOUR OWN code updated to a given week
-If you wan't to jump in on a certain week in order to be able to complete "next weeks" exercises do the following in git bash
-or your own mac-terminal if you are using a mac
+## How to get YOUR OWN Cars 'R' Us code, updated to a given week
+If you wan't to jump into a certain week, in order to be able to complete "next weeks" tasks/exercises, do the following in git bash
+or if you are using a Mac, your own mac-terminal.
 
 ````
 ## replace this you the location on your computer where the project must be created
