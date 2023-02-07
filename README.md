@@ -5,17 +5,16 @@
 Many of the solutions to individual weeks, can be found in a branch for the given week
 
 ## How to get YOUR OWN Cars 'R' Us code, updated to a given week
-If you wan't to jump into a certain week, in order to be able to complete "next weeks" tasks/exercises, do the following in Git Bash
+If you wan't to jump into a certain week, in order to be able to complete "next weeks" tasks/exercises, do the following in  **Git Bash**
 or if you are using a Mac, your own mac-terminal.
 
 #### First open a terminal in the folder where you want to create the new project.
 Then, in the terminal, do the following:
 
 ```
-## replace this with the location on your computer where the project must be created
-cd /g/dataKea/spring2023/cars
 
-# Clone the week1 branch from the remote repostiory
+# Clone the xxxx branch (here illustrated with week1) from the remote repostiory
+# Important: REPLACE week1 below, with the branch you wan't ot clone
 git clone -b week1 https://github.com/kea-spring2023/cars-r-us.git
 
 #Verify that a cars-r-us folder was created
