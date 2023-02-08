@@ -51,10 +51,13 @@ public class CarService {
     return new ResponseEntity<>(true, HttpStatus.OK);
   }
 
+
   public void setBestDiscountForCar(Integer id, Integer value) {
 
     if(carRepository.existsById(id)){
-      carRepository.getCarById(id).setBestDiscount(value);
+       Car car = carRepository.getReferenceById(id);
+       car.setBestDiscount(value);
+       carRepository.save(car);
     } else {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist");
 

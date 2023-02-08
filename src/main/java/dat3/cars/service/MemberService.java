@@ -58,7 +58,9 @@ public class MemberService {
   public void setRankingForUser(String username, int value) {
 
     if (memberRepository.existsById(username)){
-      memberRepository.findById(username).get().setRanking(value);
+      Member m = memberRepository.getReferenceById(username);
+      m.setRanking(value);
+      memberRepository.save(m);
     } else {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist");
     }
