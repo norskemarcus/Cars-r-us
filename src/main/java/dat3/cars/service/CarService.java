@@ -3,7 +3,9 @@ package dat3.cars.service;
 
 import dat3.cars.dto.CarRequest;
 import dat3.cars.dto.CarResponse;
+import dat3.cars.dto.MemberResponse;
 import dat3.cars.entity.Car;
+import dat3.cars.entity.Member;
 import dat3.cars.repositories.CarRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +42,10 @@ public class CarService {
   }
 
   public CarResponse getCarById(Integer id) {
-    return carRepository.getCarById(id);
+    Car found = carRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Car not found"));
+    return new CarResponse(found,false);
   }
+
 
   public ResponseEntity<Boolean> editCar(CarRequest body, Integer id) {
     carRepository.findById(id).orElseThrow(() ->
@@ -61,6 +65,14 @@ public class CarService {
     } else {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist");
 
+    }
+  }
+
+  public void deleteCarById(Integer id) {
+    if(carRepository.existsById(id)){
+      carRepository.deleteById(id);
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist");
     }
   }
 }
