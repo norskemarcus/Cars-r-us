@@ -51,7 +51,9 @@ public class CarController {
   // Patch: Ændre en del af tabellen
   // ADMIN
   @PatchMapping("/discount/{id}/{value}")
-  void setBestDiscount(@PathVariable Integer id, @PathVariable Integer value) {}
+  void setBestDiscount(@PathVariable Integer id, @PathVariable Integer value) {
+    carService.setBestDiscountForCar(id, value);
+  }
 
 
   // ADMIN

@@ -57,7 +57,7 @@ public class MemberService {
 // This is a patch mapping, change just one parameter of the object
   public void setRankingForUser(String username, int value) {
 
-    if (memberRepository.findById(username).isPresent()){
+    if (memberRepository.existsById(username)){
       memberRepository.findById(username).get().setRanking(value);
     } else {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist");

@@ -50,4 +50,14 @@ public class CarService {
     carRepository.save(editCar);
     return new ResponseEntity<>(true, HttpStatus.OK);
   }
+
+  public void setBestDiscountForCar(Integer id, Integer value) {
+
+    if(carRepository.existsById(id)){
+      carRepository.getCarById(id).setBestDiscount(value);
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist");
+
+    }
+  }
 }
