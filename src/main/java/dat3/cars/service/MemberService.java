@@ -47,10 +47,19 @@ public class MemberService {
 
   // Made with help from Tommy and Sebastian :)
   public ResponseEntity<Boolean> editMember(MemberRequest body, String username){
-    memberRepository.findById(username).orElseThrow(() ->
+
+   Member memberToEdit = memberRepository.findById(username).orElseThrow(() ->
         new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist"));
-    Member editMember = MemberRequest.getMemberEntity(body);
-    memberRepository.save(editMember);
+
+    memberToEdit.setPassword(body.getPassword());
+    memberToEdit.setEmail(body.getEmail());
+    memberToEdit.setFirstName(body.getFirstName());
+    memberToEdit.setLastName(body.getLastName());
+    memberToEdit.setStreet(body.getStreet());
+    memberToEdit.setCity(body.getCity());
+    memberToEdit.setZip(body.getZip());
+    memberRepository.save(memberToEdit);
+
     return new ResponseEntity<>(true, HttpStatus.OK);
   }
 
