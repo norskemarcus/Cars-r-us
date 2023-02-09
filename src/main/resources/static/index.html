@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cars R us</title>
+</head>
+<body>
+<h1>Cars R us</h1>
+<button id="btn-load">Load Members</button>
+<ul id="members-here"></ul>
+
+
+<script type="application/javascript">
+    document.getElementById("btn-load").onclick = getMembers;
+
+    function getMembers() {
+        fetch("api/members")
+            .then(res => res.json())
+            .then(data => {
+                const listItems = data.map(m => `<li>${m.username} - ${m.firstName}</li>`)
+                document.getElementById("members-here").innerHTML = listItems.join("\n")
+            })
+    }
+
+</script>
+
+</body>
+</html>
