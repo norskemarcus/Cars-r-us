@@ -45,4 +45,10 @@ public class Car {
     this.model = model;
     this.pricePrDay = pricePrDay;
   }
+
+  public Car(String brand, String model, double pricePrDay) {
+    this.brand = brand;
+    this.model = model;
+    this.pricePrDay = pricePrDay;
+  }
 }
