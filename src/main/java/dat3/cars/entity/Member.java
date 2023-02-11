@@ -3,6 +3,7 @@ package dat3.cars.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,12 +21,18 @@ import java.util.Map;
 public class Member {
   @Id
   String username;
+  @NonNull
   String password;
+  @NonNull
   String email;
   String firstName;
+  @NonNull
   String lastName;
+  @NonNull
   String street;
+  @NonNull
   String city;
+  @NonNull
   String zip;
   boolean approved;
   int ranking;
@@ -59,7 +66,6 @@ public class Member {
   @MapKeyColumn(name = "description")
   @Column(name = "phone_number")
   Map<String,String> phones = new HashMap<>();
-
 
 
 }

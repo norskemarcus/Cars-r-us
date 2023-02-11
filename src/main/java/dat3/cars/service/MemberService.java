@@ -40,12 +40,22 @@ public class MemberService {
     return responses;
   }
 
-  public MemberResponse findMemberByUsername(String username) {
-    Member found = memberRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
-    return new MemberResponse(found,false);
+
+  public MemberResponse findMemberByUsernameAsAdmin(String username) {
+    Member found = memberRepository.findById(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    return new MemberResponse(found, true);
   }
 
-  // Made with help from Tommy and Sebastian :)
+
+  // Does not include created, edited, ranking, approved;
+  public MemberResponse findMemberByUsernameAsMember(String username) {
+    Member found = memberRepository.findById(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    return new MemberResponse(found, false);
+  }
+
+
+
+
   public ResponseEntity<Boolean> editMember(MemberRequest body, String username){
 
    Member memberToEdit = memberRepository.findById(username).orElseThrow(() ->
@@ -59,13 +69,19 @@ public class MemberService {
     memberToEdit.setCity(body.getCity());
     memberToEdit.setZip(body.getZip());
     memberRepository.save(memberToEdit);
-
+    // Made with help from Tommy and Sebastian :)
     return new ResponseEntity<>(true, HttpStatus.OK);
   }
 
 // This is a patch mapping, change just one parameter of the object
+  // Made this with inspiration from Thomas SA!
   public void setRankingForUser(String username, int value) {
 
+    Member member = memberRepository.findById(username).orElseThrow(() ->
+        new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist"));
+    member.setRanking(value);
+    memberRepository.save(member);
+    /*
     if (memberRepository.existsById(username)){
       Member m = memberRepository.getReferenceById(username);
       m.setRanking(value);
@@ -74,14 +90,25 @@ public class MemberService {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist");
     }
 
+     */
+
   }
 
   public void deleteMemberByUsername(String username) {
+    memberRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+    memberRepository.deleteById(username);
+
+    /*
     if (memberRepository.findById(username).isPresent()){
       memberRepository.deleteById(username);
     } else {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist");
 
+
+
     }
+
+     */
+
   }
 }

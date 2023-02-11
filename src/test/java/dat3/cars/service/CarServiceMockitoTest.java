@@ -102,18 +102,21 @@ class CarServiceMockitoTest {
     assertEquals("DS", request.getBrand());
   }
 
-/*
+
   @Test
   void setBestDiscountForCar() {
-    Car c1 = new Car(1, "Tesla", "Model Y", 500);
+    Car c1 = new Car( "Tesla", "Model Y", 500);
+
     c1.setCreated(LocalDateTime.now());
-    Mockito.when(carRepository.findById(1)).thenReturn(java.util.Optional.of(c1));
-    carService.setBestDiscountForCar(1, 50);
+    Mockito.when(carRepository.existsById(c1.getId())).thenReturn(true);
+    Mockito.when(carRepository.getReferenceById(c1.getId())).thenReturn(c1);
+
+    carService.setBestDiscountForCar(c1.getId(), 50);
     assertEquals(50, c1.getBestDiscount());
   }
 
 
- */
+
 
 /*
   @Test

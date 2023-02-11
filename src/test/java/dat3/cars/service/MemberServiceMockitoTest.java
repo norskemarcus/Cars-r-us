@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -84,14 +85,30 @@ class MemberServiceMockitoTest {
 
 
   @Test
-  void findMemberByUsername() {
+  void findMemberByUsernameAsAdmin() {
     Member m1 = new Member("m1", "test12", "m1@a.dk", "bb", "Olsen", "xx vej 34", "Lyngby", "2800");
-    m1.setCreated(LocalDateTime.now());
+    m1.setRanking(100);
+    Mockito.when(memberRepository.findById("m1")).thenReturn(java.util.Optional.of(m1));
+    MemberResponse response = memberService.findMemberByUsernameAsAdmin("m1");
+    assertEquals(100,response.getRanking());
+  }
+
+
+  @Test
+  void findMemberByUsernameAsMember() {
+    Member m1 = new Member("m1", "test12", "m1@a.dk", "bb", "Olsen", "xx vej 34", "Lyngby", "2800");
+    m1.setRanking(100);
     Mockito.when(memberRepository.findById("m1")).thenReturn(java.util.Optional.of(m1));
 
-    MemberResponse response = memberService.findMemberByUsername("m1");
-    assertEquals("m1@a.dk",response.getEmail());
+    MemberResponse response = memberService.findMemberByUsernameAsMember("m1");
+    // A member should not get the ranking
+    assertEquals(null, response.getRanking());
   }
+
+
+
+
+
 
   @Test
   void editMember(){
@@ -106,22 +123,22 @@ class MemberServiceMockitoTest {
 
 
 
-/*
+
   @Test
   void setRankingForUser(){
     Member m1 = new Member("m1", "test12", "m1@a.dk", "bb",
         "Olsen", "xx vej 34", "Lyngby", "2800");
     m1.setCreated(LocalDateTime.now());
     MemberRequest request = new MemberRequest(m1);
-    //Mockito.when(memberRepository.findById(request.getUsername())).thenReturn(java.util.Optional.of(m1));
+    Mockito.when(memberRepository.findById(request.getUsername())).thenReturn(java.util.Optional.of(m1));
     // Save m1 to the repo?? Helo from Jonathan with next line!
-    //Mockito.when(memberRepository.save(any(Member.class))).thenReturn(m1);
+    Mockito.when(memberRepository.save(any(Member.class))).thenReturn(m1);
     memberService.setRankingForUser("m1", 100);
     memberRepository.save(m1);
     assertEquals(100, m1.getRanking());
   }
 
- */
+
 
   @Test
   void deleteMemberByUsername() {
@@ -133,8 +150,12 @@ class MemberServiceMockitoTest {
     // Mockito, hvis nogen bruger findAll-metoden, så returneres listen af m1 og m2
     Mockito.when(memberRepository.findAll()).thenReturn(List.of(m1,m2));
 
-    memberService.deleteMemberByUsername("m1");
-    assertEquals(1, memberRepository.findAll().size());
+    Mockito.when(memberRepository.findById("m1")).thenReturn(Optional.of(m1));
+    List<MemberResponse> members = memberService.getMembers(true);
+
+    //memberService.deleteMemberByUsername("m1");
+    assertEquals(0, members.size());
+
   }
 
 

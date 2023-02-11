@@ -51,4 +51,13 @@ public class Car {
     this.model = model;
     this.pricePrDay = pricePrDay;
   }
+
+  @Override
+  public String toString() {
+    return "Car{" +
+        "id=" + id +
+        ", brand='" + brand + '\'' +
+        ", model='" + model + '\'' +
+        '}';
+  }
 }

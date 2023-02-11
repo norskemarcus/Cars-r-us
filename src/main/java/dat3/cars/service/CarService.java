@@ -71,10 +71,10 @@ public class CarService {
   }
 
   public void deleteCarById(Integer id) {
-    if(carRepository.existsById(id)){
-      carRepository.deleteById(id);
-    } else {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist");
-    }
+    carRepository.findById(id).orElseThrow(() ->
+        new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist"));
+
+    carRepository.deleteById(id);
+
   }
 }

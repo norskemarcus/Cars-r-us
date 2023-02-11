@@ -62,14 +62,12 @@ class MemberServiceMockWithH2Test {
       assertNotNull(members.get(0).getCreated());
     }
 
-
+// OBS for at få getRanking skal man være admin og includeAll skal være true!
     @Test
     void setRankingForUser(){
-      // Member member = new Member("eva2023", "eva2023", "eva@gmail.dk",  "Eva",
-      // "Amundsen", "Test vej 34", "Søborg", "2860");
-      // memberService.setRankingForUser("m1", 100);
-      //memberRepository.save(member);
-      // assertEquals(100, member.getRanking());
+       memberService.setRankingForUser("m1", 100);
+       MemberResponse memberResponse = memberService.findMemberByUsernameAsAdmin("m1");
+       assertEquals(100, memberResponse.getRanking());
     }
 
 
