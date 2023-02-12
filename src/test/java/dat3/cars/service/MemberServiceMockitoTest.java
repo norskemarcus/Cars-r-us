@@ -118,6 +118,12 @@ class MemberServiceMockitoTest {
     Mockito.when(memberRepository.findById("m1")).thenReturn(java.util.Optional.of(m1));
     MemberRequest request = new MemberRequest();
     request.setFirstName("Anders");
+    request.setPassword("ThisIsAveryStrongPassword!");
+    request.setEmail(m1.getEmail());
+    request.setLastName(m1.getLastName());
+    request.setStreet(m1.getStreet());
+    request.setCity(m1.getCity());
+    request.setZip(m1.getZip());
     memberService.editMember(request, "m1");
     assertEquals("Anders", m1.getFirstName());
   }
