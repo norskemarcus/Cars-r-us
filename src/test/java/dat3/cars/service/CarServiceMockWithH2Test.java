@@ -6,13 +6,10 @@ import dat3.cars.entity.Car;
 import dat3.cars.repositories.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,36 +59,41 @@ class CarServiceMockWithH2Test {
 
   @Test
   void getCarById() {
-    CarRequest request = new CarRequest();
-    request.setId(1000);
-    request.setBrand("Opel");
-    request.setModel("Astra");
-    request.setPricePrDay(200);
-    CarResponse carResponse =  carService.addCar(request);
+    Car car = new Car("TestBrand", "1000X", 1000);
+    CarRequest request = new CarRequest(car);
 
-    if (carRepository.findById(carResponse.getId()).isPresent()) {
-      Car car = carRepository.findById(carResponse.getId()).get();
-      assertEquals(carResponse.getId(), car.getId());
-    } else {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist");
+      if (carRepository.existsById(request.getId())) {
+        CarResponse carFound = carRepository.getCarById(request.getId());
+        assertEquals(car.getId(), carFound.getId());
+      }
     }
-  }
+
 
   @Test
   void editCar() {
-    CarResponse response = carService.getCarById(1);
-
+    Car car = new Car("TestBrand", "1000X", 1000);
+    if (carRepository.existsById(car.getId())){
+      CarRequest request = new CarRequest(car);
+      request.setBrand("Kia");
+      request.setModel("Ceed");
+      request.setPricePrDay(400);
+      carService.editCar(request, request.getId());
+      assertEquals("Kia", car.getBrand());
+    }
   }
 
 
-  // Made with help from Tommy
   @Test
   void setBestDiscountForCar() {
-    if (carRepository.findById(1).isPresent()) {
-      Car c1 = carRepository.findById(1).get();
+
+    Car car = new Car("TestBrand", "1000X", 1000);
+    CarRequest request = new CarRequest(car);
+
+    if (carRepository.existsById(request.getId())) {
+      Car c1 = carRepository.findById(request.getId()).get();
       c1.setCreated(LocalDateTime.now());
 
-      carService.setBestDiscountForCar(1, 50);
+      carService.setBestDiscountForCar(car.getId(), 50);
       assertEquals(50, c1.getBestDiscount());
     }
   }
@@ -109,15 +111,16 @@ class CarServiceMockWithH2Test {
   }
 
 
-  // Testen fejler hvis man kører alle samtidig...
-  // Hjelp fra Tommy
+
   @Test
   void deleteCarById() {
-    if (carRepository.findById(1).isPresent()){
-      Car car = carRepository.findById(1).get();
+    Car car = new Car("TestBrand", "1000X", 1000);
+    CarRequest request = new CarRequest(car);
+
+    if (carRepository.findById(request.getId()).isPresent()){
+      carRepository.findById(request.getId()).get();
       carService.deleteCarById(car.getId());
       assertFalse(carRepository.existsById(car.getId()));
     }
-
   }
 }

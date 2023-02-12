@@ -10,9 +10,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -118,24 +121,26 @@ class CarServiceMockitoTest {
 
 
 
-/*
+
   @Test
   void deleteCarById() {
-    Car c1 = new Car(1, "Tesla", "Model Y", 500);
-    Car c2 = new Car (2, "Tesla", "Model 3", 400);
+    Car c1 = new Car("Tesla", "Model Y", 500);
+   // Car c2 = new Car ("Tesla", "Model 3", 400);
+    CarRequest request = new CarRequest(c1);
+    CarResponse response = new CarResponse(c1, true);
+    carRepository.save(c1);
+
     // Tidsstempel
     c1.setCreated(LocalDateTime.now());
-    c2.setCreated(LocalDateTime.now());
+   // c2.setCreated(LocalDateTime.now());
     // Mockito, hvis nogen bruger findAll-metoden, så returneres listen af m1 og m2
-    Mockito.when(carRepository.findAll()).thenReturn(List.of(c1, c2));
-    carService.deleteCarById(c1.getId());
-
-    // Testen:
+    //Mockito.when(carRepository.findById(c1.getId())).thenReturn(java.util.Optional.of(c1));
+    Mockito.when(carRepository.findById(response.getId())).thenReturn(Optional.of(c1));
+    carService.deleteCarById(response.getId());
+    System.out.println(response.toString());
     //List<CarResponse> cars = carService.getCars(true);
-    //assertEquals(1, cars.size());
-    //assertNotNull(cars.get(0).getCreated());
+    assertNull( c1.getBrand());
+
 
   }
-
- */
 }

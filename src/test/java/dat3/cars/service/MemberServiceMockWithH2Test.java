@@ -62,6 +62,22 @@ class MemberServiceMockWithH2Test {
       assertNotNull(members.get(0).getCreated());
     }
 
+
+
+  @Test
+  void editMember(){
+      if (memberRepository.existsById("m1")){
+        Member member = memberRepository.findById("m1").get();
+        MemberRequest request = new MemberRequest(member);
+        request.setFirstName("Hjalte");
+        request.setLastName("Møller");
+        memberService.editMember(request,"m1");
+        assertEquals("Møller", request.getLastName());
+      }
+  }
+
+
+
 // OBS for at få getRanking skal man være admin og includeAll skal være true!
     @Test
     void setRankingForUser(){
