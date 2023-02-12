@@ -13,8 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -142,15 +140,15 @@ class MemberServiceMockitoTest {
 /*
   @Test
   void deleteMemberByUsername() {
-    //Member m1 = new Member("m1", "m1@a.dk", "test12", "bb", "Olsen", "xx vej 34", "Lyngby", "2800");
-    //Member m2 = new Member("m2", "m2@a.dk", "test12", "aa", "hansen", "xx vej 34", "Lyngby", "2800");
+    Member m1 = new Member("m1", "m1@a.dk", "test12", "bb", "Olsen", "xx vej 34", "Lyngby", "2800");
+    Member m2 = new Member("m2", "m2@a.dk", "test12", "aa", "hansen", "xx vej 34", "Lyngby", "2800");
     // Tidsstempel
-    //m1.setCreated(LocalDateTime.now());
+    m1.setCreated(LocalDateTime.now());
     List<MemberResponse> response = memberService.getMembers(true);
 
-    //m2.setCreated(LocalDateTime.now());
+    m2.setCreated(LocalDateTime.now());
     // Mockito, hvis nogen bruger findAll-metoden, så returneres listen af m1 og m2
-    //Mockito.when(memberRepository.findAll()).thenReturn(List.of(m1,m2));
+    Mockito.when(memberRepository.findAll()).thenReturn(List.of(m1,m2));
     //Mockito.when(memberRepository.findById("m1")).thenReturn(Optional.of(m1));
    // List<MemberResponse> members = memberService.getMembers(true);
     memberService.deleteMemberByUsername("m1");
@@ -160,6 +158,10 @@ class MemberServiceMockitoTest {
 
 
  */
+
+
+
+
 
 
 }
