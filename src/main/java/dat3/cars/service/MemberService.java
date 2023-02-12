@@ -74,41 +74,15 @@ public class MemberService {
   }
 
 // This is a patch mapping, change just one parameter of the object
-  // Made this with inspiration from Thomas SA!
   public void setRankingForUser(String username, int value) {
-
     Member member = memberRepository.findById(username).orElseThrow(() ->
         new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist"));
     member.setRanking(value);
     memberRepository.save(member);
-    /*
-    if (memberRepository.existsById(username)){
-      Member m = memberRepository.getReferenceById(username);
-      m.setRanking(value);
-      memberRepository.save(m);
-    } else {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist");
-    }
-
-     */
-
   }
 
   public void deleteMemberByUsername(String username) {
     memberRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
     memberRepository.deleteById(username);
-
-    /*
-    if (memberRepository.findById(username).isPresent()){
-      memberRepository.deleteById(username);
-    } else {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist");
-
-
-
-    }
-
-     */
-
   }
 }
