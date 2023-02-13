@@ -87,21 +87,21 @@ class CarServiceMockitoTest {
 
   @Test
   void getCarById() {
-    Car c1 = new Car(1, "Tesla", "Model Y", 500);
+    Car c1 = new Car("Tesla", "Model Y", 500);
     c1.setCreated(LocalDateTime.now());
-    Mockito.when(carRepository.findById(1)).thenReturn(java.util.Optional.of(c1));
-    CarResponse response = carService.getCarById(1);
-    assertEquals(1,response.getId());
+    Mockito.when(carRepository.findById(c1.getId())).thenReturn(java.util.Optional.of(c1));
+    CarResponse response = carService.getCarById(c1.getId());
+    assertEquals(c1.getId(),response.getId());
   }
 
   @Test
   void editCar() {
-    Car c1 = new Car(1, "Tesla", "Model Y", 500);
+    Car c1 = new Car("Tesla", "Model Y", 500);
     c1.setCreated(LocalDateTime.now());
-    Mockito.when(carRepository.findById(1)).thenReturn(java.util.Optional.of(c1));
+    Mockito.when(carRepository.findById(c1.getId())).thenReturn(java.util.Optional.of(c1));
     CarRequest request = new CarRequest(c1);
     request.setBrand("DS");
-    carService.editCar(request, 1);
+    carService.editCar(request, c1.getId());
     assertEquals("DS", request.getBrand());
   }
 
@@ -120,27 +120,35 @@ class CarServiceMockitoTest {
 
 
 
+
 /*
 
   @Test
   void deleteCarById() {
-    Car c1 = new Car("Tesla", "Model Y", 500);
-    CarRequest request = new CarRequest(c1);
-    CarResponse response = new CarResponse(c1, true);
 
-    carRepository.save(c1);
+    Car c1 = new Car(1, "Tesla", "Model Y", 500);
+    Car c2 = new Car (2, "Tesla", "Model 3", 400);
     c1.setCreated(LocalDateTime.now());
+    c2.setCreated(LocalDateTime.now());
+    //CarRequest request = new CarRequest(c1);
 
+    // Mockito, hvis nogen bruger findAll-metoden, så returneres listen af m1 og m2
+    Mockito.when(carRepository.findAll()).thenReturn(List.of(c1,c2));
+    carService.deleteCarById(1);
 
-    //Mockito.when(carRepository.findById(c1.getId())).thenReturn(java.util.Optional.of(c1));
-    Mockito.when(carRepository.findById(request.getId())).thenReturn(Optional.of(c1));
-    carService.deleteCarById(request.getId());
+    // Testen:
+    Mockito.when(carService.getCars(true)).thenReturn(List.of());
+    List<CarResponse> cars = carService.getCars(true);
 
-    //List<CarResponse> cars = carService.getCars(true);
-    assertNull(c1.getBrand());
+    assertEquals(1,cars.size());
+    assertNull(cars.get(0).getCreated());
 
   }
- */
+*/
+
+
+
+
 
 
 }
