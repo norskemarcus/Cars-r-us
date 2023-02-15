@@ -30,6 +30,8 @@ public class MemberResponse {
   Integer ranking;
   Boolean approved;
 
+  private ReservationResponse reservationResponse;
+
   //Convert Member Entity to Member DTO
   public MemberResponse(Member m, boolean includeAll) {
     this.username = m.getUsername();
@@ -45,5 +47,10 @@ public class MemberResponse {
       this.approved = m.isApproved();
       this.ranking = m.getRanking();
     }
+
+
+    // Change the MemberResponse to return something like
+    // this for members with reservations and without
+
   }
 }

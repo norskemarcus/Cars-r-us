@@ -27,10 +27,10 @@ public class CarController {
   }
 
 
-  // ADMIN
+  // ANONYMOUS?
   @GetMapping(path = "/{id}")
   CarResponse getCarById(@PathVariable Integer id) {
-    return carService.getCarById(id);
+    return carService.getCarById(id, true); // Skal denne være false?
   }
 
 

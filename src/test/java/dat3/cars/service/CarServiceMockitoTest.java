@@ -1,3 +1,4 @@
+
 package dat3.cars.service;
 
 import dat3.cars.dto.CarRequest;
@@ -10,14 +11,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 @ExtendWith(MockitoExtension.class)
 class CarServiceMockitoTest {
@@ -90,7 +88,7 @@ class CarServiceMockitoTest {
     Car c1 = new Car("Tesla", "Model Y", 500);
     c1.setCreated(LocalDateTime.now());
     Mockito.when(carRepository.findById(c1.getId())).thenReturn(java.util.Optional.of(c1));
-    CarResponse response = carService.getCarById(c1.getId());
+    CarResponse response = carService.getCarById(c1.getId(), false);
     assertEquals(c1.getId(),response.getId());
   }
 
@@ -121,20 +119,18 @@ class CarServiceMockitoTest {
 
 
 
-/*
-
-  @Test
+/*  @Test
   void deleteCarById() {
 
-    Car c1 = new Car(1, "Tesla", "Model Y", 500);
-    Car c2 = new Car (2, "Tesla", "Model 3", 400);
+    Car c1 = new Car("Tesla", "Model Y", 500);
+    Car c2 = new Car ("Tesla", "Model 3", 400);
     c1.setCreated(LocalDateTime.now());
     c2.setCreated(LocalDateTime.now());
     //CarRequest request = new CarRequest(c1);
 
     // Mockito, hvis nogen bruger findAll-metoden, så returneres listen af m1 og m2
     Mockito.when(carRepository.findAll()).thenReturn(List.of(c1,c2));
-    carService.deleteCarById(1);
+    carService.deleteCarById(c1.getId());
 
     // Testen:
     Mockito.when(carService.getCars(true)).thenReturn(List.of());
@@ -143,12 +139,5 @@ class CarServiceMockitoTest {
     assertEquals(1,cars.size());
     assertNull(cars.get(0).getCreated());
 
-  }
-*/
-
-
-
-
-
-
+  }*/
 }

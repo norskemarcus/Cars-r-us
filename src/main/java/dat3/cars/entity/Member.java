@@ -10,9 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -37,6 +35,14 @@ public class Member {
   boolean approved;
   int ranking;
 
+  //  a Member can make many reservations
+   /* chatGPT:  Added cascade and orphanRemoval properties to the @OneToMany
+   relationships in the Car and Member entities. This will ensure that when a
+   reservation is deleted, it will also be removed from the list of reservations
+   in the corresponding car and member  entities. */
+  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Reservation> reservations = new ArrayList<>();
+
   @CreationTimestamp
   LocalDateTime created;
 
@@ -59,13 +65,13 @@ public class Member {
   You can remove the following when we get to week2 if you like, they were only include to demonstrate
   collestions of basic type
    */
-  @ElementCollection
+ /* @ElementCollection
   List<String> favoriteCarColors = new ArrayList<>();
 
   @ElementCollection
   @MapKeyColumn(name = "description")
   @Column(name = "phone_number")
   Map<String,String> phones = new HashMap<>();
-
+*/
 
 }

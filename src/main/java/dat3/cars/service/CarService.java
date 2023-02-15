@@ -15,16 +15,16 @@ import java.util.List;
 @Service
 public class CarService {
 
-  CarRepository carRepository;
+  private final CarRepository carRepository;
+
 
   public CarService (CarRepository carRepository){
     this.carRepository = carRepository;
   }
 
-
   public CarResponse addCar(CarRequest carRequest){
     //Add error checks --> Missing arguments, email taken etc.
-    if(carRepository.existsById(carRequest.getId())){
+    if(carRepository.existsById(Math.toIntExact(carRequest.getId()))){
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Car with this ID already exist");
     }
     Car newCar = CarRequest.getCarEntity(carRequest);
@@ -35,13 +35,12 @@ public class CarService {
   // OBS: returnerer en CarResponse! Bruge stream
   public List<CarResponse> getCars(boolean includeAll) {
     List<Car> cars = carRepository.findAll();
-    List<CarResponse> carResponses = cars.stream().map(m -> new CarResponse(m, includeAll)).toList();
-    return carResponses;
+    return cars.stream().map(m -> new CarResponse(m, includeAll)).toList();
   }
 
-  public CarResponse getCarById(Integer id) {
+  public CarResponse getCarById(Integer id, boolean includeAll) {
     Car found = carRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Car not found"));
-    return new CarResponse(found,false);
+    return new CarResponse(found, includeAll);
   }
 
 
@@ -69,7 +68,9 @@ public class CarService {
 
     }
   }
-
+// ResponseEntity<Boolean>
+  // if not exists  throw new Res
+  // try and catch
   public void deleteCarById(Integer id) {
     carRepository.findById(id).orElseThrow(() ->
         new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist"));
@@ -77,4 +78,5 @@ public class CarService {
     carRepository.deleteById(id);
 
   }
+
 }

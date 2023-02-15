@@ -7,29 +7,32 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
+
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Data
+
 @Entity
 public class Car {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  int id;
+  private Integer id;
 
   @Column(name="car_brand",length = 50, nullable = false)
-  String brand;
+  private String brand;
 
   @Column(name="car_model",length = 60, nullable = false)
-  String model;
+  private String model;
 
   @Column(name="rental_price-day")
-  double pricePrDay;
+  private double pricePrDay;
 
   @Column(name="max_discount")
-  int bestDiscount;
+  private int bestDiscount;
 
   @CreationTimestamp
   LocalDateTime created;
@@ -37,14 +40,16 @@ public class Car {
   @UpdateTimestamp
   LocalDateTime lastEdited;
 
+  /* chatGPT:
+  Note that I have added cascade and orphanRemoval properties
+  to the @OneToMany relationships in the Car and Member entities.
+  This will ensure that when a reservation is deleted, it will also be
+  removed from the list of reservations in the corresponding car and member entities.
+ */
+  // a Car can be reserved for many days by different Members
+  @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Reservation> reservations = new ArrayList<>();
 
-  // TODO: Skal denne constructor med???
-  public Car(Integer id, String brand, String model, double pricePrDay) {
-    this.id = id;
-    this.brand = brand;
-    this.model = model;
-    this.pricePrDay = pricePrDay;
-  }
 
   public Car(String brand, String model, double pricePrDay) {
     this.brand = brand;
@@ -52,12 +57,5 @@ public class Car {
     this.pricePrDay = pricePrDay;
   }
 
-  @Override
-  public String toString() {
-    return "Car{" +
-        "id=" + id +
-        ", brand='" + brand + '\'' +
-        ", model='" + model + '\'' +
-        '}';
-  }
+
 }

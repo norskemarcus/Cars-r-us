@@ -6,10 +6,9 @@ import dat3.cars.entity.Car;
 import dat3.cars.repositories.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import java.time.LocalDateTime;
+import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,15 +26,24 @@ class CarServiceMockWithH2Test {
 
   boolean dataIsReady = false;
 
+  private Car car1;
+  private Car car2;
+
 
   @BeforeEach
   void setUp() {
-    if (!dataIsReady) {  //Explain this
-      carRepository.save(new Car("Tesla", "Model Y", 500));
-      carRepository.save(new Car("Volvo", "V70", 300));
-      dataIsReady = true;
+    if (dataIsReady) return;
+
+      car1 = Car.builder().brand("Tesla").model("Model Y").pricePrDay(500).bestDiscount(10).build();
+      car2 = Car.builder().brand("Volvo").model("V70").pricePrDay(300).bestDiscount(10).build();
+      // KUN bruge dette i setUP i en test!
+
+      carRepository.saveAndFlush(car1);
+      carRepository.saveAndFlush(car2);
       carService = new CarService(carRepository); //Real DB is mocked away with H2
-    }
+
+      dataIsReady = true;
+
   }
 
   @Test
@@ -59,68 +67,48 @@ class CarServiceMockWithH2Test {
 
   @Test
   void getCarById() {
-    Car car = new Car("TestBrand", "1000X", 1000);
-    CarRequest request = new CarRequest(car);
+    CarResponse response = carService.getCarById(car1.getId(),true);
 
-      if (carRepository.existsById(request.getId())) {
-        CarResponse carFound = carRepository.getCarById(request.getId());
-        assertEquals(car.getId(), carFound.getId());
-      }
+    assertEquals(car1.getBrand(), response.getBrand());
+    assertEquals(car1.getModel(), response.getModel());
+    assertEquals(car1.getPricePrDay(), response.getPricePrDay());
     }
 
 
   @Test
   void editCar() {
-    Car car = new Car("TestBrand", "1000X", 1000);
-    if (carRepository.existsById(car.getId())){
-      CarRequest request = new CarRequest(car);
-      request.setBrand("Kia");
-      request.setModel("Ceed");
-      request.setPricePrDay(400);
-      carService.editCar(request, request.getId());
-      assertEquals("Kia", car.getBrand());
-    }
+    CarRequest request = new CarRequest(car1);
+    request.setBrand("Kia");
+    request.setModel("Ceed");
+    request.setPricePrDay(400);
+    carService.editCar(request, request.getId());
+
+    assertEquals("Kia", request.getBrand());
   }
 
 
   @Test
   void setBestDiscountForCar() {
+      carService.setBestDiscountForCar(car1.getId(), 50);
+      assertEquals(50, car1.getBestDiscount());
 
-    Car car = new Car("TestBrand", "1000X", 1000);
-    CarRequest request = new CarRequest(car);
-
-    if (carRepository.existsById(request.getId())) {
-      Car c1 = carRepository.findById(request.getId()).get();
-      c1.setCreated(LocalDateTime.now());
-
-      carService.setBestDiscountForCar(car.getId(), 50);
-      assertEquals(50, c1.getBestDiscount());
-    }
   }
-
-
-  // Er dette en dårlig test? Burde den hellere teste at dem throws an exception?
-  @Test
-  void setBestDiscountForCarNotPresent() {
-    if (carRepository.findById(40000).isPresent()) {
-      Car c1 = carRepository.findById(40000).get();
-      c1.setCreated(LocalDateTime.now());
-      carService.setBestDiscountForCar(40000, 50);
-      assertEquals(0, c1.getBestDiscount());
-    }
-  }
-
 
 
   @Test
   void deleteCarById() {
-    Car car = new Car("TestBrand", "1000X", 1000);
-    CarRequest request = new CarRequest(car);
-
-    if (carRepository.findById(request.getId()).isPresent()){
-      carRepository.findById(request.getId()).get();
-      carService.deleteCarById(car.getId());
-      assertFalse(carRepository.existsById(car.getId()));
+      carService.deleteCarById(car1.getId());
+      assertFalse(carRepository.existsById(car1.getId()));
     }
+
+
+// Test from Lars, example on test of Exception
+  @Test
+  void deleteNonExistingCarThrows() {
+    assertThrows(ResponseStatusException.class, ()-> carService.deleteCarById(1111));
   }
-}
+
+
+
+
+  }

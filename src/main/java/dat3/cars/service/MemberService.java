@@ -1,6 +1,5 @@
 package dat3.cars.service;
 
-
 import dat3.cars.dto.MemberRequest;
 import dat3.cars.dto.MemberResponse;
 import dat3.cars.entity.Member;
@@ -9,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
@@ -36,8 +33,7 @@ public class MemberService {
 
   public List<MemberResponse> getMembers(boolean includeAll) {
     List<Member> members = memberRepository.findAll();
-    List<MemberResponse> responses = members.stream().map(member -> new MemberResponse(member,includeAll)).collect(Collectors.toList());
-    return responses;
+    return members.stream().map(m -> new MemberResponse(m, includeAll)).toList();
   }
 
 
@@ -54,8 +50,9 @@ public class MemberService {
   }
 
 
-
-
+// Kun ændre den hvis den er tilstede: Mark sit forslag fra Lars
+// Optional.ofNullable(body.getEmail()).ifPresent(memberToEdit::setEmail);
+  // I postman skal man ellers sende alle værdier med, selv om de ikke ændres!
   public ResponseEntity<Boolean> editMember(MemberRequest body, String username){
 
    Member memberToEdit = memberRepository.findById(username).orElseThrow(() ->

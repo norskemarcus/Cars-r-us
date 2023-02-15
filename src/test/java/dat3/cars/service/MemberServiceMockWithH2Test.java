@@ -24,12 +24,15 @@ class MemberServiceMockWithH2Test {
     @Autowired
     public MemberRepository memberRepository;
 
-    MemberService memberService;
+    private MemberService memberService;
+    private Member m1;
+    private Member m2;
 
     boolean dataIsReady = false;
+
     @BeforeEach
     void setUp() {
-      if(!dataIsReady){  //Explain this
+      if(!dataIsReady){
         memberRepository.save(new Member("m1", "test12", "m1@a.dk",  "bb",
             "Olsen", "xx vej 34", "Lyngby", "2800"));
         memberRepository.save(new Member("m2", "test12", "m2@a.dk", "aa",
@@ -93,6 +96,8 @@ class MemberServiceMockWithH2Test {
       memberService.deleteMemberByUsername("m1");
       assertEquals(1, memberRepository.findAll().size());
     }
+
+
 
 
   }

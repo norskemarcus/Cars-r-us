@@ -40,7 +40,7 @@ public class MemberController {
     return memberService.addMember(body);
   }
 
-  //Security Admin? (eventually we will change it to use the currently log in user)
+  //Security Admin? (eventually we will change it to use the currently logged-in user)
   @PutMapping("/{username}")
   public ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, @PathVariable String username){
     return memberService.editMember(body, username);
