@@ -64,11 +64,9 @@ public class CarController {
 
   // Find all cars with a certain brand and model
   // Member
-  @GetMapping(path = "/{id}")
-  List<CarResponse> getCarsByCertainBrandAndModel(String brand, String model) {
-    // return carService.getCarsByBrandAndModel(false); // false since member!
-
-    return null;
+  @GetMapping(path = "/brand-model/{brand}/{model}")
+  List<CarResponse> getCarsByCertainBrandAndModel(@PathVariable String brand, @PathVariable String model) {
+    return carService.getCarsByBrandAndModel(brand, model); // OBS tager ikke stilling til false og true
   }
 }
 

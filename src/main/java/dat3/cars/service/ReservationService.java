@@ -24,16 +24,15 @@ public class ReservationService {
   private ReservationRepository reservationRepository;
   private CarRepository carRepository;
   private MemberRepository memberRepository;
-  private UserWithRolesRepository userWithRolesRepository;
+
 
   public ReservationService(ReservationRepository reservationRepository,
-  CarRepository carRepository, MemberRepository memberRepository,
-                            UserWithRolesRepository userWithRolesRepository) {
+  CarRepository carRepository, MemberRepository memberRepository) {
     this.reservationRepository = reservationRepository;
     this.carRepository = carRepository;
     this.memberRepository = memberRepository;
-    this.userWithRolesRepository = userWithRolesRepository;
   }
+
 
   public Reservation findReservationById(Integer id) {
     Reservation reservation = reservationRepository.findById(id).orElseThrow(() ->

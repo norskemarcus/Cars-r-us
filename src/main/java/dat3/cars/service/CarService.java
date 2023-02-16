@@ -80,7 +80,7 @@ public class CarService {
   }
 
   public List<CarResponse> getCarsByBrandAndModel(String brand, String model) {
-    // return carRepository.findByBrandAndModel(brand, model);
-    return null;
+    List<Car> cars = carRepository.findByBrandAndModel(brand, model);
+    return cars.stream().map(c -> new CarResponse(c, false)).toList(); // false since member
   }
 }
