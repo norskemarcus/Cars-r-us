@@ -3,7 +3,7 @@ package dat3.cars.service;
 import dat3.cars.dto.MemberRequest;
 import dat3.cars.dto.MemberResponse;
 import dat3.cars.entity.Member;
-import dat3.cars.repositories.MemberRepository;
+import dat3.cars.repository.MemberRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,13 @@ public class MemberService {
   public MemberService(MemberRepository memberRepository) {
     this.memberRepository = memberRepository;
   }
+
+ /* // Samarbejdet med Tommy
+  public boolean checkIfMemberHasReservations(String username){
+    //boolean hasReservations = memberRepository.existsMemberByReservationsIsNotEmpty(username);
+    return true;
+  }*/
+
 
   public MemberResponse addMember(MemberRequest memberRequest){
     if(memberRepository.existsById(memberRequest.getUsername())){
@@ -33,6 +40,7 @@ public class MemberService {
 
   public List<MemberResponse> getMembers(boolean includeAll) {
     List<Member> members = memberRepository.findAll();
+    // TODO: hardcoded true - hvad gør vi?
     return members.stream().map(m -> new MemberResponse(m, includeAll)).toList();
   }
 

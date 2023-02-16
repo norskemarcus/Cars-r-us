@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+// Har det noget at sige med api foran?
 @RestController
-@RequestMapping("/reservations")
+@RequestMapping("api/reservations")
 public class ReservationController {
+
   private final ReservationService reservationService;
 
 

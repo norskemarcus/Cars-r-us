@@ -4,7 +4,7 @@ package dat3.cars.service;
 import dat3.cars.dto.CarRequest;
 import dat3.cars.dto.CarResponse;
 import dat3.cars.entity.Car;
-import dat3.cars.repositories.CarRepository;
+import dat3.cars.repository.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

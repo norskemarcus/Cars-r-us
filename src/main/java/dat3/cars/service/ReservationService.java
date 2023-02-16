@@ -6,16 +6,17 @@ import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
 import dat3.cars.entity.Reservation;
-import dat3.cars.repositories.CarRepository;
-import dat3.cars.repositories.MemberRepository;
-import dat3.cars.repositories.ReservationRepository;
+import dat3.cars.repository.CarRepository;
+import dat3.cars.repository.MemberRepository;
+import dat3.cars.repository.ReservationRepository;
+import dat3.security.entity.Role;
+import dat3.security.repository.UserWithRolesRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -23,12 +24,15 @@ public class ReservationService {
   private ReservationRepository reservationRepository;
   private CarRepository carRepository;
   private MemberRepository memberRepository;
+  private UserWithRolesRepository userWithRolesRepository;
 
   public ReservationService(ReservationRepository reservationRepository,
-  CarRepository carRepository, MemberRepository memberRepository) {
+  CarRepository carRepository, MemberRepository memberRepository,
+                            UserWithRolesRepository userWithRolesRepository) {
     this.reservationRepository = reservationRepository;
     this.carRepository = carRepository;
     this.memberRepository = memberRepository;
+    this.userWithRolesRepository = userWithRolesRepository;
   }
 
   public Reservation findReservationById(Integer id) {
@@ -43,6 +47,9 @@ public class ReservationService {
     // Check if the authenticated user is a valid member
     Member member = memberRepository.findById(body.getUsername()).orElseThrow(()
         -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist"));
+
+    // Add role to user
+    member.addRole(Role.USER);
 
     // Check if the car exists
     Car car = carRepository.findById(body.getCarId()).orElseThrow(()

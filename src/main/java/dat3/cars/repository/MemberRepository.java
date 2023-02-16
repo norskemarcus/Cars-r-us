@@ -1,4 +1,4 @@
-package dat3.cars.repositories;
+package dat3.cars.repository;
 
 
 import dat3.cars.entity.Member;
@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, String> {
   boolean existsByEmail(String email);
+
+ // List<Member> membersWithReservation();
+
+ // boolean existsMemberByReservationsIsNotEmpty(String username);
 
 
 
