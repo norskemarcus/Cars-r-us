@@ -36,7 +36,7 @@ public class CarController {
 
   // ANONYMOUS (real world: bekræfte per mail)
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  CarResponse addCar(@RequestBody CarRequest body){
+  CarResponse addCar(@RequestBody CarRequest body) {
     // skal have samme navn som MemberRequest! Gør at den automatisk går fra json til java og vice versa
     return carService.addCar(body);
   }
@@ -44,7 +44,7 @@ public class CarController {
 
   // Admin ? (eventually we will change it to use the currently log in user)
   @PutMapping("/{id}")
-  ResponseEntity<Boolean> editCar(@RequestBody CarRequest body, @PathVariable Integer id){
+  ResponseEntity<Boolean> editCar(@RequestBody CarRequest body, @PathVariable Integer id) {
     return carService.editCar(body, id);
   }
 
@@ -62,10 +62,13 @@ public class CarController {
     carService.deleteCarById(id);
   }
 
+  // Find all cars with a certain brand and model
+  // Member
+  @GetMapping(path = "/{id}")
+  List<CarResponse> getCarsByCertainBrandAndModel(String brand, String model) {
+    // return carService.getCarsByBrandAndModel(false); // false since member!
 
-
-
-
-
+    return null;
+  }
 }
 

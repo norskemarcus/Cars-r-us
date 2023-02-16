@@ -79,4 +79,8 @@ public class CarService {
 
   }
 
+  public List<CarResponse> getCarsByBrandAndModel(String brand, String model) {
+    // return carRepository.findByBrandAndModel(brand, model);
+    return null;
+  }
 }
