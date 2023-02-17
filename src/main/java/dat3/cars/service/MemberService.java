@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
+
 @Service
 public class MemberService {
   MemberRepository memberRepository;
@@ -83,5 +84,12 @@ public class MemberService {
   public void deleteMemberByUsername(String username) {
     memberRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
     memberRepository.deleteById(username);
+  }
+
+
+  public List<MemberResponse> findMembersWithReservation(){
+    List<Member> members = memberRepository.findMembersWithReservation();
+    // Stream the list of members to a list of MemberResponse
+    return members.stream().map(m -> new MemberResponse(m, true)).toList();
   }
 }

@@ -12,37 +12,34 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-//Transactional (rollback)
-//Includes what is needed for JPA/Hibernate - leaves everything else out
-//Uses an in-memory database (H2)
+
 @DataJpaTest
 class CarServiceMockWithH2Test {
 
 
   @Autowired
   public CarRepository carRepository;
-
   CarService carService;
-
   boolean dataIsReady = false;
-
   private Car car1;
   private Car car2;
 
 
+
   @BeforeEach
   void setUp() {
-    if (dataIsReady) return;
-
+    if (!dataIsReady){
       car1 = Car.builder().brand("Tesla").model("Model Y").pricePrDay(500).bestDiscount(10).build();
       car2 = Car.builder().brand("Volvo").model("V70").pricePrDay(300).bestDiscount(10).build();
-      // KUN bruge dette i setUP i en test!
 
+      // KUN bruge dette i setUP i en test!
       carRepository.saveAndFlush(car1);
       carRepository.saveAndFlush(car2);
       carService = new CarService(carRepository); //Real DB is mocked away with H2
 
       dataIsReady = true;
+    }
+
 
   }
 
@@ -107,7 +104,6 @@ class CarServiceMockWithH2Test {
   void deleteNonExistingCarThrows() {
     assertThrows(ResponseStatusException.class, ()-> carService.deleteCarById(1111));
   }
-
 
 
 

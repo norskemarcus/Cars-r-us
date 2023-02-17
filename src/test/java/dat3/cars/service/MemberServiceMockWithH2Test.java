@@ -25,8 +25,6 @@ class MemberServiceMockWithH2Test {
     public MemberRepository memberRepository;
 
     private MemberService memberService;
-    private Member m1;
-    private Member m2;
 
     boolean dataIsReady = false;
 
@@ -63,7 +61,6 @@ class MemberServiceMockWithH2Test {
     void getMembersAdmin() {
       List<MemberResponse> members = memberService.getMembers(true);
       assertEquals(2,members.size());
-      //assertNotNull(members.get(0).getCreated());
     }
 
 
@@ -97,8 +94,6 @@ class MemberServiceMockWithH2Test {
       memberService.deleteMemberByUsername("m1");
       assertEquals(1, memberRepository.findAll().size());
     }
-
-
 
 
   }
