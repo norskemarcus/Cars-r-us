@@ -4,6 +4,7 @@ import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -17,4 +18,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
   List<Reservation> findReservationsByMember_Username(String username);
 
 
+  // Find the total number of reservations made by a certain member
+  @Query("select COUNT(r) from Reservation r where r.member.username = ?1")
+  Integer findReservationsByMemberUsername(String name);
 }

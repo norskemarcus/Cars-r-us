@@ -91,4 +91,14 @@ public class ReservationService {
     List<Reservation> reservations = reservationRepository.findAll();
     return reservations.stream().map(r -> new ReservationResponse(r)).toList();
   }
+
+
+// Find the total number of reservations made by a certain member
+  public Integer getTotalNumberOfReservationsByMemberUsername(String username){
+    return reservationRepository.findReservationsByMemberUsername(username);
+  }
+
+
+
+
 }

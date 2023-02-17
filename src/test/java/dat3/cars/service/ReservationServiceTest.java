@@ -95,6 +95,11 @@ class ReservationServiceTest {
     assertEquals(2, reservations.size());
   }
 
-
+  @Test
+  void getTotalNumberOfReservationsByMemberUsername(){
+    Integer numberOfReservations = reservationService.getTotalNumberOfReservationsByMemberUsername(m2.getUsername());
+    // Member m2 has 2 reservation
+    assertEquals(2, numberOfReservations);
+  }
 
 }
