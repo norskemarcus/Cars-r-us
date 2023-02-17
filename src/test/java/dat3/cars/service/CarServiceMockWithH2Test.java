@@ -105,6 +105,11 @@ class CarServiceMockWithH2Test {
     assertThrows(ResponseStatusException.class, ()-> carService.deleteCarById(1111));
   }
 
+  @Test
+  void getCarsWithoutReservation(){
+    List<CarResponse> cars = carService.getCarsWithoutReservation();
+    assertEquals(2, cars.size());
+  }
 
 
   }

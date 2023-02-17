@@ -70,12 +70,16 @@ public class CarController {
   }
 
 
-
   @GetMapping("/discount")
   List<CarResponse> getCarsWithBestDiscount(){
     return carService.getCarsWithBestDiscount();
   }
 
+  // http://localhost:8080/api/cars/no-reservation
+  @GetMapping("/no-reservation")
+  List<CarResponse> getCarsWithoutReservation(){
+    return carService.getCarsWithoutReservation();
+  }
 
 }
 

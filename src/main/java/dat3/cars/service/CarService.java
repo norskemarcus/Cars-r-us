@@ -87,4 +87,9 @@ public class CarService {
     return cars.stream().map(c -> new CarResponse(c, true)).toList();
   }
 
+  public List<CarResponse> getCarsWithoutReservation(){
+    List<Car> cars = carRepository.getCarsWithoutReservation();
+    return cars.stream().map(c -> new CarResponse(c, true)).toList();
+  }
+
 }
