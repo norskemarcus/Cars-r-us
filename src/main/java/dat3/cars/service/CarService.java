@@ -23,7 +23,6 @@ public class CarService {
   }
 
   public CarResponse addCar(CarRequest carRequest){
-    //Add error checks --> Missing arguments, email taken etc.
     if(carRepository.existsById(Math.toIntExact(carRequest.getId()))){
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Car with this ID already exist");
     }
@@ -32,7 +31,7 @@ public class CarService {
     return new CarResponse(newCar, false);  //False since anonymous uses can create "themself"
   }
 
-  // OBS: returnerer en CarResponse! Bruge stream
+
   public List<CarResponse> getCars(boolean includeAll) {
     List<Car> cars = carRepository.findAll();
     return cars.stream().map(m -> new CarResponse(m, includeAll)).toList();
@@ -45,7 +44,6 @@ public class CarService {
 
 
   public ResponseEntity<Boolean> editCar(CarRequest body, Integer id) {
-
     Car carToEdit = carRepository.findById(id).orElseThrow(() ->
         new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist"));
 
@@ -65,22 +63,28 @@ public class CarService {
        carRepository.save(car);
     } else {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist");
-
     }
   }
-// ResponseEntity<Boolean>
-  // if not exists  throw new Res
-  // try and catch
+
+// Kan også bruge ResponseEntity<Boolean>, if not exists -> throw new ResponseStatusException: with try and catch
   public void deleteCarById(Integer id) {
     carRepository.findById(id).orElseThrow(() ->
         new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist"));
 
     carRepository.deleteById(id);
-
   }
+
 
   public List<CarResponse> getCarsByBrandAndModel(String brand, String model) {
     List<Car> cars = carRepository.findByBrandAndModel(brand, model);
     return cars.stream().map(c -> new CarResponse(c, false)).toList(); // false since member
   }
+
+
+  public List<CarResponse> getCarsWithBestDiscount(){
+    Integer bestDiscount = carRepository.findMaxDiscount();
+    List<Car> cars = carRepository.findCarsByBestDiscount(bestDiscount);
+    return cars.stream().map(c -> new CarResponse(c, true)).toList();
+  }
+
 }

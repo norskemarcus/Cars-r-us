@@ -57,8 +57,6 @@ public class DeveloperData implements ApplicationRunner {
     Car car = Car.builder().brand("Volvo").model("V70").pricePrDay(500).bestDiscount(10).build();
     LocalDate startDate = LocalDate.parse("2023-02-14");
     carRepository.save(car);
-
-    // Car car, Member member, LocalDate reservationDate yyyy-MM-dd
     Reservation reservation = new Reservation(car, demo, startDate);
     reservationRepository.save(reservation);
 
@@ -69,7 +67,7 @@ public class DeveloperData implements ApplicationRunner {
     Reservation reservation2 = new Reservation(car2, hanne, startDate2);
     reservationRepository.save(reservation2);
 
-    //Obviously the cars below are created by chat-GPT :-)
+    // The cars below are created by chat-GPT
     List<Car> newCars = new ArrayList<>(Arrays.asList(
         Car.builder().brand("Volvo").model("V70").pricePrDay(500).bestDiscount(10).build(),
         Car.builder().brand("Suzuki").model("Swift").pricePrDay(350).bestDiscount(6).build(),
@@ -85,18 +83,7 @@ public class DeveloperData implements ApplicationRunner {
         Car.builder().brand("Suzuki").model("Grand Vitara").pricePrDay(450).bestDiscount(12).build(),
         Car.builder().brand("Kia").model("Sportage").pricePrDay(500).bestDiscount(20).build(),
         Car.builder().brand("WW").model("SUV").pricePrDay(400).bestDiscount(18).build(),
-        Car.builder().brand("Volvo").model("XC90").pricePrDay(800).bestDiscount(25).build(),
-        Car.builder().brand("Volvo").model("XC90").pricePrDay(800).bestDiscount(25).build(),
-        Car.builder().brand("Volvo").model("XC90").pricePrDay(800).bestDiscount(25).build(),
-        Car.builder().brand("Suzuki").model("Baleno").pricePrDay(450).bestDiscount(15).build(),
-        Car.builder().brand("Kia").model("Stinger").pricePrDay(600).bestDiscount(12).build(),
-        Car.builder().brand("WW").model("Sedan").pricePrDay(400).bestDiscount(20).build(),
-        Car.builder().brand("Volvo").model("XC40").pricePrDay(700).bestDiscount(30).build(),
-        Car.builder().brand("Volvo").model("XC40").pricePrDay(700).bestDiscount(30).build(),
-        Car.builder().brand("Volvo").model("XC40").pricePrDay(700).bestDiscount(30).build(),
-        Car.builder().brand("Suzuki").model("Ignis").pricePrDay(400).bestDiscount(14).build(),
-        Car.builder().brand("Kia").model("Rio").pricePrDay(450).bestDiscount(12).build(),
-        Car.builder().brand("WW").model("Hatchback").pricePrDay(450).bestDiscount(16).build()
+        Car.builder().brand("Volvo").model("XC90").pricePrDay(800).bestDiscount(25).build()
     ));
     carRepository.saveAll(newCars);
   }
@@ -109,26 +96,10 @@ public class DeveloperData implements ApplicationRunner {
  ****************************************************************************************
  * */
     private void setupUserWithRoleUsers() {
-
-      System.out.println("******************************************************************************");
-      System.out.println("******* NEVER  COMMIT/PUSH CODE WITH DEFAULT CREDENTIALS FOR REAL ************");
-      System.out.println("******* REMOVE THIS BEFORE DEPLOYMENT, AND SETUP DEFAULT USERS DIRECTLY  *****");
-      System.out.println("**** ** ON YOUR REMOTE DATABASE                 ******************************");
-      System.out.println("******************************************************************************");
-
       UserWithRoles user1 = new UserWithRoles("user1", "xxx", "user1@a.dk");
       UserWithRoles user2 = new UserWithRoles("user2", "xxx", "user2@a.dk");
       UserWithRoles user3 = new UserWithRoles("user3", "xxx", "user3@a.dk");
       UserWithRoles user4 = new UserWithRoles("user4", "xxx", "user4@a.dk");
-
-
-      //    Member demo = memberRepository.save(new Member("demo", "xxx666", "demo@a.dk", "Demo", "Wonnegut", "Lyngbyvej 34", "Lyngby", "2800"));
-      // Adde en rolle til en bruger?
-      UserWithRoles kurtR = new UserWithRoles("kurt-w", "xxx444", "kw@a.dk");
-      kurtR.addRole(Role.USER);
-      UserWithRoles hanne = new UserWithRoles("hanne-w", "xxx444", "hw@a.dk");
-      hanne.addRole(Role.ADMIN);
-
 
       user1.addRole(Role.USER);
       user1.addRole(Role.ADMIN);
@@ -140,11 +111,5 @@ public class DeveloperData implements ApplicationRunner {
       userWithRolesRepository.save(user2);
       userWithRolesRepository.save(user3);
       userWithRolesRepository.save(user4);
-
-
     }
-
-
-
-
 }

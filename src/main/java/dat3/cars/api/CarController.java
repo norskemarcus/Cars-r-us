@@ -68,5 +68,14 @@ public class CarController {
   List<CarResponse> getCarsByCertainBrandAndModel(@PathVariable String brand, @PathVariable String model) {
     return carService.getCarsByBrandAndModel(brand, model); // OBS tager ikke stilling til false og true
   }
+
+
+
+  @GetMapping("/discount")
+  List<CarResponse> getCarsWithBestDiscount(){
+    return carService.getCarsWithBestDiscount();
+  }
+
+
 }
 

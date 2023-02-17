@@ -1,6 +1,7 @@
 package dat3.cars.service;
 
 
+import dat3.cars.dto.CarResponse;
 import dat3.cars.dto.ReservationRequest;
 import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;
@@ -41,6 +42,22 @@ public class ReservationService {
   }
 
 
+  public List<ReservationResponse> findReservationsByMember(String username){
+
+    // First check if the member exists
+    Member memberFound = memberRepository.findById(username).orElseThrow(() ->
+        new ResponseStatusException(HttpStatus.NOT_FOUND, "Member does not exist in the database"));
+
+    List<Reservation> reservations = reservationRepository.findReservationsByMember_Username(username);
+
+    if(reservations.isEmpty()){
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, memberFound + " does not have any reservations");
+    }
+    return reservations.stream().map(ReservationResponse::new).toList();
+  }
+
+
+
   public ReservationResponse makeReservation(ReservationRequest body) {
 
     // Check if the authenticated user is a valid member
@@ -58,18 +75,17 @@ public class ReservationService {
     if (body.getRentalDate().isBefore(LocalDate.now())){
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The date is in the past");
     }
-
     // Checke om bilen er optaget den dag
     if(reservationRepository.existsByCarAndRentalDate(car, body.getRentalDate())){
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The car is already rented out");
     }
-
-
     // Map the request to a Reservation object
     Reservation reservation = new Reservation(car, member, body.getRentalDate());
     reservationRepository.save(reservation);
     return new ReservationResponse(reservation);
   }
+
+
 
   public List<ReservationResponse> getReservations() {
     List<Reservation> reservations = reservationRepository.findAll();

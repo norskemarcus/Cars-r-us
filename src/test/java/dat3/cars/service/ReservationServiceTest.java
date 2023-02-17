@@ -4,6 +4,7 @@ import dat3.cars.dto.ReservationRequest;
 import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
+import dat3.cars.entity.Reservation;
 import dat3.cars.repository.CarRepository;
 import dat3.cars.repository.MemberRepository;
 import dat3.cars.repository.ReservationRepository;
@@ -14,11 +15,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-@ComponentScan("dat3.car.service")
 /*
 @ComponentScan("dat3.car.service") is an annotation in Spring Framework that tells Spring where to look for
 Spring-managed components, such as Spring beans, within a package or packages. In this case, it specifies that Spring
@@ -58,6 +59,13 @@ class ReservationServiceTest {
       memberRepository.saveAndFlush(m1);
       memberRepository.saveAndFlush(m2);
 
+      // Make 2 reservations to member m1
+      LocalDate rentalDate = LocalDate.parse("2023-02-14");
+      LocalDate rentalDate2 = LocalDate.parse("2024-02-14");
+      Reservation reservation = new Reservation(car1, m2, rentalDate);
+      Reservation reservation2 = new Reservation(car2, m2, rentalDate2);
+      reservationRepository.saveAndFlush(reservation);
+      reservationRepository.saveAndFlush(reservation2);
 
       //Real DB is mocked away with H2
        reservationService = new ReservationService(reservationRepository, carRepository, memberRepository);
@@ -78,5 +86,15 @@ class ReservationServiceTest {
 
     assertEquals(LocalDate.parse("2023-08-20"), response.getRentalDate());
   }
+
+
+  @Test
+  void findReservationsByMember(){
+    List<ReservationResponse> reservations = reservationService.findReservationsByMember(m2.getUsername());
+    // 2 since member m2 made 2 reservations in the set-up
+    assertEquals(2, reservations.size());
+  }
+
+
 
 }

@@ -18,12 +18,6 @@ public class MemberService {
     this.memberRepository = memberRepository;
   }
 
- /* // Samarbejdet med Tommy
-  public boolean checkIfMemberHasReservations(String username){
-    //boolean hasReservations = memberRepository.existsMemberByReservationsIsNotEmpty(username);
-    return true;
-  }*/
-
 
   public MemberResponse addMember(MemberRequest memberRequest){
     if(memberRepository.existsById(memberRequest.getUsername())){

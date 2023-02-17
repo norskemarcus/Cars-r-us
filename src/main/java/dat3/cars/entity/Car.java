@@ -28,7 +28,7 @@ public class Car {
   @Column(name="car_model",length = 60, nullable = false)
   private String model;
 
-  @Column(name="rental_price-day")
+  @Column(name="rental_price_day")
   private double pricePrDay;
 
   @Column(name="max_discount")
