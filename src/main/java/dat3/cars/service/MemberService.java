@@ -92,4 +92,12 @@ public class MemberService {
     // Stream the list of members to a list of MemberResponse
     return members.stream().map(m -> new MemberResponse(m, true)).toList();
   }
+
+  public List<MemberResponse> findMembersWithoutReservation(){
+    List<Member> members = memberRepository.findMembersWithoutReservation();
+    // Stream the list of members to a list of MemberResponse
+    return members.stream().map(m -> new MemberResponse(m, true)).toList();
+  }
+
+
 }

@@ -65,5 +65,10 @@ class MemberRepositoryTest {
     }
 
 
+  @Test
+  void findMembersWithoutReservation(){
+    List<Member> members = memberRepository.findMembersWithoutReservation();
+    assertEquals(0, members.size());
+  }
 
   }

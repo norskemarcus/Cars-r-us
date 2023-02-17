@@ -60,11 +60,16 @@ public class MemberController {
     memberService.deleteMemberByUsername(username);
   }
 
-  // Postman GET + http://localhost:8080/api/members/reservations
+  // http://localhost:8080/api/members/reservations
   @GetMapping("/reservation")
   public List<MemberResponse> findMembersWithReservation(){
     return memberService.findMembersWithReservation();
   }
 
+  // http://localhost:8080/api/members/no-reservation
+  @GetMapping("/no-reservation")
+  public List<MemberResponse> findMembersWithoutReservation(){
+    return memberService.findMembersWithoutReservation();
+  }
 
 }
