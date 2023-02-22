@@ -16,14 +16,17 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
  @Query("select c from Car c where c.brand = ?1 and c.model = ?2")
  List<Car> findByBrandAndModel(String brand, String model);
 
+
  // Find the average price per day of all cars in the system
  @Query("SELECT AVG(c.pricePrDay) FROM Car c")
  double findAvgPricePrDayALlCars();
 
-// Find all cars with the best discount
+
+// Find the best discount
 @Query ("SELECT MAX(c.bestDiscount) FROM Car c")
 Integer findMaxDiscount();
 
+ // Find all cars with the best discount
 @Query("select c from Car c where c.bestDiscount = ?1")
 List<Car> findCarsByBestDiscount(Integer bestDiscount);
 

@@ -1,6 +1,4 @@
 package dat3.cars.repository;
-
-import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,8 +11,13 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
+  // Is there a reservation with this car at this rental date?
+  @Query("select (count(r) > 0) from Reservation r where r.car = ?1 and r.rentalDate = ?2")
   boolean existsByCarAndRentalDate(Car car, LocalDate rentalDate);
 
+
+  // Find reservations with a member username
+  @Query("select r from Reservation r where r.member.username = ?1")
   List<Reservation> findReservationsByMember_Username(String username);
 
 

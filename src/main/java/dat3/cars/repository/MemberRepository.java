@@ -17,8 +17,6 @@ public interface MemberRepository extends JpaRepository<Member, String> {
   @Query("SELECT DISTINCT m FROM Member m JOIN m.reservations r")
   List<Member> findMembersWithReservation();
 
-  // Made with help from chatGPT
   @Query("SELECT m FROM Member m WHERE m.username NOT IN (SELECT DISTINCT r.member.username FROM Reservation r)")
   List<Member> findMembersWithoutReservation();
-
 }

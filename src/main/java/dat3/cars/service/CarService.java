@@ -22,6 +22,11 @@ public class CarService {
     this.carRepository = carRepository;
   }
 
+  /**
+   * @param carRequest
+   * @return {Value} TODO: hvordan få value op?
+   *
+   */
   public CarResponse addCar(CarRequest carRequest){
     if(carRepository.existsById(Math.toIntExact(carRequest.getId()))){
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Car with this ID already exist");

@@ -1,7 +1,5 @@
 package dat3.cars.service;
 
-
-import dat3.cars.dto.CarResponse;
 import dat3.cars.dto.ReservationRequest;
 import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;
@@ -11,11 +9,9 @@ import dat3.cars.repository.CarRepository;
 import dat3.cars.repository.MemberRepository;
 import dat3.cars.repository.ReservationRepository;
 import dat3.security.entity.Role;
-import dat3.security.repository.UserWithRolesRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,10 +31,10 @@ public class ReservationService {
   }
 
 
-  public Reservation findReservationById(Integer id) {
+  public ReservationResponse findReservationById(Integer id) {
     Reservation reservation = reservationRepository.findById(id).orElseThrow(() ->
         new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation not found"));
-    return reservation;
+    return new ReservationResponse(reservation);
   }
 
 
