@@ -50,7 +50,7 @@ public class MemberResponse {
       this.approved = m.isApproved();
       this.ranking = m.getRanking();
     }
-    // Samarbejdet med Tommy om denne del :)
+
     if (!m.getReservations().isEmpty()){
       this.reservations = new ArrayList<>();
       for (Reservation reservation: m.getReservations()) {

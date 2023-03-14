@@ -35,7 +35,6 @@ public class MemberService {
 
   public List<MemberResponse> getMembers(boolean includeAll) {
     List<Member> members = memberRepository.findAll();
-    // TODO: hardcoded true - hvad gør vi?
     return members.stream().map(m -> new MemberResponse(m, includeAll)).toList();
   }
 

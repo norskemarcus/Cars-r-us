@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,11 +20,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-/*
-@ComponentScan("dat3.car.service") is an annotation in Spring Framework that tells Spring where to look for
-Spring-managed components, such as Spring beans, within a package or packages. In this case, it specifies that Spring
-should scan the dat3.car.service package and its sub-packages to find Spring-managed components.
- */
 class ReservationServiceTest {
 
   @Autowired
@@ -48,8 +43,8 @@ class ReservationServiceTest {
   void setUp() {
 
     if(!dataIsReady){
-      car1 = new Car("Tesla", "Model Y", 500);
-      car2 = new Car ("Volvo" , "V70", 300);
+      car1 = new Car("Tesla", "Model Y", 500, 10);
+      car2 = new Car ("Volvo" , "V70", 300, 10);
       carRepository.saveAndFlush(car1);
       carRepository.saveAndFlush(car2);
 

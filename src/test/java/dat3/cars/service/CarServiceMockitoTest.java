@@ -33,8 +33,8 @@ class CarServiceMockitoTest {
 
   @Test
   void getCarsAdmin() {
-    Car c1 = new Car("Tesla", "Model Y", 500);
-    Car c2 = new Car ("Tesla", "Model 3", 400);
+    Car c1 = new Car("Tesla", "Model Y", 500, 20);
+    Car c2 = new Car ("Tesla", "Model 3", 400, 20);
     // Tidsstempel
     c1.setCreated(LocalDateTime.now());
     c2.setCreated(LocalDateTime.now());
@@ -49,8 +49,8 @@ class CarServiceMockitoTest {
 
   @Test
   void getCarsNotAdmin() {
-    Car c1 = new Car("Tesla", "Model Y", 500);
-    Car c2 = new Car ("Tesla", "Model 3", 400);
+    Car c1 = new Car("Tesla", "Model Y", 500, 20);
+    Car c2 = new Car ("Tesla", "Model 3", 400, 20);
     // Tidsstempel
     c1.setCreated(LocalDateTime.now());
     c2.setCreated(LocalDateTime.now());
@@ -68,8 +68,8 @@ class CarServiceMockitoTest {
   @Test
   void addCar() {
     // Integer id, String brand, String model, double pricePrDay
-    Car c1 = new Car("Tesla", "Model Y", 500);
-    Car c2 = new Car ("Tesla", "Model 3", 400);
+    Car c1 = new Car("Tesla", "Model Y", 500,10);
+    Car c2 = new Car ("Tesla", "Model 3", 400, 10);
     // Tidsstempel
     c1.setCreated(LocalDateTime.now());
     c2.setCreated(LocalDateTime.now());
@@ -85,7 +85,7 @@ class CarServiceMockitoTest {
 
   @Test
   void getCarById() {
-    Car c1 = new Car("Tesla", "Model Y", 500);
+    Car c1 = new Car("Tesla", "Model Y", 500, 10);
     c1.setCreated(LocalDateTime.now());
     Mockito.when(carRepository.findById(c1.getId())).thenReturn(java.util.Optional.of(c1));
     CarResponse response = carService.getCarById(c1.getId(), false);
@@ -94,7 +94,7 @@ class CarServiceMockitoTest {
 
   @Test
   void editCar() {
-    Car c1 = new Car("Tesla", "Model Y", 500);
+    Car c1 = new Car("Tesla", "Model Y", 500, 15);
     c1.setCreated(LocalDateTime.now());
     Mockito.when(carRepository.findById(c1.getId())).thenReturn(java.util.Optional.of(c1));
     CarRequest request = new CarRequest(c1);
@@ -106,7 +106,7 @@ class CarServiceMockitoTest {
 
   @Test
   void setBestDiscountForCar() {
-    Car c1 = new Car( "Tesla", "Model Y", 500);
+    Car c1 = new Car( "Tesla", "Model Y", 500, 10);
 
     c1.setCreated(LocalDateTime.now());
     Mockito.when(carRepository.existsById(c1.getId())).thenReturn(true);

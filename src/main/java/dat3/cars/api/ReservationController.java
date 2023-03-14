@@ -11,6 +11,7 @@ import java.util.List;
 
 // Har det noget at sige med api foran?
 @RestController
+@CrossOrigin
 @RequestMapping("api/reservations")
 public class ReservationController {
 

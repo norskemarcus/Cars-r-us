@@ -14,7 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 
 @Entity
 public class Car {
@@ -51,10 +52,11 @@ public class Car {
   private List<Reservation> reservations = new ArrayList<>();
 
 
-  public Car(String brand, String model, double pricePrDay) {
+  public Car(String brand, String model, double pricePrDay, Integer bestDiscount) {
     this.brand = brand;
     this.model = model;
     this.pricePrDay = pricePrDay;
+    this.bestDiscount = bestDiscount;
   }
 
 

@@ -4,6 +4,9 @@ import dat3.cars.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,6 +20,8 @@ public class MemberRequest {
   String street;
   String city;
   String zip;
+ 
+
 
   public static Member getMemberEntity(MemberRequest m){
     return new Member(m.username,m.getPassword(),m.getEmail(), m.firstName, m.lastName,m.getStreet(), m.getCity(), m.getZip());

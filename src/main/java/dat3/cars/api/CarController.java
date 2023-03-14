@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/cars")
 public class CarController {
@@ -37,7 +37,6 @@ public class CarController {
   // ANONYMOUS (real world: bekræfte per mail)
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   CarResponse addCar(@RequestBody CarRequest body) {
-    // skal have samme navn som MemberRequest! Gør at den automatisk går fra json til java og vice versa
     return carService.addCar(body);
   }
 

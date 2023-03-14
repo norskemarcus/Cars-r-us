@@ -12,6 +12,7 @@ import java.util.List;
 
 @RequestMapping("/api/members")
 @RestController
+@CrossOrigin
 public class MemberController {
 
   final MemberService memberService;

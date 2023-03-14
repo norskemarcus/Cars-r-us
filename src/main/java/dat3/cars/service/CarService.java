@@ -28,7 +28,8 @@ public class CarService {
    *
    */
   public CarResponse addCar(CarRequest carRequest){
-    if(carRepository.existsById(Math.toIntExact(carRequest.getId()))){
+
+    if(carRequest.getId() != null && carRepository.existsById(Math.toIntExact(carRequest.getId()))){
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Car with this ID already exist");
     }
     Car newCar = CarRequest.getCarEntity(carRequest);
@@ -49,7 +50,7 @@ public class CarService {
 
 
   public ResponseEntity<Boolean> editCar(CarRequest body, Integer id) {
-    Car carToEdit = carRepository.findById(id).orElseThrow(() ->
+        Car carToEdit = carRepository.findById(id).orElseThrow(() ->
         new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID does not exist"));
 
     carToEdit.setBrand(body.getBrand());
