@@ -6,6 +6,7 @@ import dat3.cars.dto.CarResponse;
 import dat3.cars.service.CarService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -20,42 +21,48 @@ public class CarController {
     this.carService = carService;
   }
 
-  // ADMIN
-  @GetMapping
+
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @GetMapping("/admin")
   List<CarResponse> getCars() {
-    return carService.getCars(true); // true since admin!
+    return carService.getCars(true);
+  }
+
+  @PreAuthorize("hasAuthority('USER')")
+  @GetMapping("/user")
+  List<CarResponse> getCarsUser() {
+    return carService.getCars(false);
   }
 
 
-  // ANONYMOUS?
+  @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
   @GetMapping(path = "/{id}")
   CarResponse getCarById(@PathVariable Integer id) {
     return carService.getCarById(id, true); // Skal denne være false?
   }
 
 
-  // ANONYMOUS (real world: bekræfte per mail)
+  @PreAuthorize("hasAuthority('ADMIN')")
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   CarResponse addCar(@RequestBody CarRequest body) {
     return carService.addCar(body);
   }
 
-
-  // Admin ? (eventually we will change it to use the currently log in user)
+  @PreAuthorize("hasAuthority('ADMIN')")
   @PutMapping("/{id}")
   ResponseEntity<Boolean> editCar(@RequestBody CarRequest body, @PathVariable Integer id) {
     return carService.editCar(body, id);
   }
 
   // Patch: Ændre en del af tabellen
-  // ADMIN
+  @PreAuthorize("hasAuthority('ADMIN')")
   @PatchMapping("/discount/{id}/{value}")
   void setBestDiscount(@PathVariable Integer id, @PathVariable Integer value) {
     carService.setBestDiscountForCar(id, value);
   }
 
 
-  // ADMIN
+  @PreAuthorize("hasAuthority('ADMIN')")
   @DeleteMapping("/{id}")
   void deleteCarById(@PathVariable Integer id) {
     carService.deleteCarById(id);
@@ -68,7 +75,7 @@ public class CarController {
     return carService.getCarsByBrandAndModel(brand, model); // OBS tager ikke stilling til false og true
   }
 
-
+  @PreAuthorize("hasAuthority('ADMIN')")
   @GetMapping("/discount")
   List<CarResponse> getCarsWithBestDiscount(){
     return carService.getCarsWithBestDiscount();

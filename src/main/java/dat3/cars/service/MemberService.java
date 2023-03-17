@@ -4,6 +4,8 @@ import dat3.cars.dto.MemberRequest;
 import dat3.cars.dto.MemberResponse;
 import dat3.cars.entity.Member;
 import dat3.cars.repository.MemberRepository;
+import dat3.security.entity.Role;
+import dat3.security.repository.UserWithRolesRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.List;
 @Service
 public class MemberService {
   MemberRepository memberRepository;
+  UserWithRolesRepository userWithRolesRepository;
 
   public MemberService(MemberRepository memberRepository) {
     this.memberRepository = memberRepository;
@@ -30,6 +33,8 @@ public class MemberService {
 
     Member newMember = MemberRequest.getMemberEntity(memberRequest);
     newMember = memberRepository.save(newMember);
+    newMember.addRole(Role.USER);
+    // userWithRolesRepository.save(newMember);
     return new MemberResponse(newMember, false); //False since anonymous uses can create "themself"
   }
 

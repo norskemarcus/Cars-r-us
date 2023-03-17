@@ -49,7 +49,7 @@ public class SecurityConfig {
   //@Bean
   public CorsFilter corsFilter() {
     UrlBasedCorsConfigurationSource source =
-            new UrlBasedCorsConfigurationSource();
+        new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(true);
     config.addAllowedOriginPattern("*");
@@ -64,39 +64,46 @@ public class SecurityConfig {
     //This line is added to make the h2-console work (if needed)
     http.headers().frameOptions().disable();
     http
-            .cors().and().csrf().disable()
+        .cors().and().csrf().disable()
 
-            .httpBasic(Customizer.withDefaults())
-            .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            //REF: https://mflash.dev/post/2021/01/19/error-handling-for-spring-security-resource-server/
-            .exceptionHandling((exceptions) -> exceptions
-                    .authenticationEntryPoint(new CustomOAuth2AuthenticationEntryPoint())
-                    .accessDeniedHandler(new CustomOAuth2AccessDeniedHandler())
-            )
-            .oauth2ResourceServer()
-            .jwt()
-            .jwtAuthenticationConverter(authenticationConverter());
+        .httpBasic(Customizer.withDefaults())
+        .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        //REF: https://mflash.dev/post/2021/01/19/error-handling-for-spring-security-resource-server/
+        .exceptionHandling((exceptions) -> exceptions
+            .authenticationEntryPoint(new CustomOAuth2AuthenticationEntryPoint())
+            .accessDeniedHandler(new CustomOAuth2AccessDeniedHandler())
+        )
+        .oauth2ResourceServer()
+        .jwt()
+        .jwtAuthenticationConverter(authenticationConverter());
 
     http.authorizeHttpRequests((authorize) -> authorize
-            //Obviously we need to be able to login without being logged in :-)
-            .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+        //Obviously we need to be able to login without being logged in :-)
+        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
 
-            //Required in order to use the h2-console
-            .requestMatchers("/h2*/**").permitAll()
+        //Required in order to use the h2-console
+        .requestMatchers("/h2*/**").permitAll()
 
-            .requestMatchers("/").permitAll() //Allow for a default index.html file
+        .requestMatchers("/").permitAll() //Allow the default index.html file
 
+        //Next two lines only required if you plan to do the cookie/session-demo from within this project
+        .requestMatchers("/session-demo.html").permitAll()
+        .requestMatchers("/api/cookie/**").permitAll()
 
-            //necessary to allow for "nice" JSON Errors
-            .requestMatchers("/error").permitAll()
+        //Allow anonymous access to this endpoint
+        //.requestMatchers(HttpMethod.GET,"/api/demo/anonymous").permitAll()
 
-            .requestMatchers("/", "/**").permitAll());
+        //necessary to allow for "nice" JSON Errors
+        .requestMatchers("/error").permitAll()
 
-           // .requestMatchers(HttpMethod.GET,"/api/demo/anonymous").permitAll());
+        // removes security:
+        //.requestMatchers("/", "/**").permitAll());
 
-           // Demonstrates another way to add roles to an endpoint
-           // .requestMatchers(HttpMethod.GET, "/api/demo/admin").hasAuthority("ADMIN")
-    //.anyRequest().authenticated());
+        // .requestMatchers(HttpMethod.GET,"/api/demo/anonymous").permitAll());
+
+        // Demonstrates another way to add roles to an endpoint
+        // .requestMatchers(HttpMethod.GET, "/api/demo/admin").hasAuthority("ADMIN")
+        .anyRequest().authenticated());
 
     return http.build();
   }
@@ -142,7 +149,7 @@ public class SecurityConfig {
   //TBD --> IS THIS THE RIGHT WAY
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-          throws Exception {
+      throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
   }
 

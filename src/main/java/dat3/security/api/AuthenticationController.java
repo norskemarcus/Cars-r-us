@@ -3,6 +3,7 @@ package dat3.security.api;
 import dat3.security.dto.LoginRequest;
 import dat3.security.dto.LoginResponse;
 import dat3.security.entity.UserWithRoles;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
+
+
+/*
+@Getter
+class InfoResponse {
+  String info;
+  public InfoResponse(String info) {
+    this.info = info;
+  }
+}
+*/
+
 
 @RestController
 @RequestMapping("/api/auth/")

@@ -5,6 +5,7 @@ import dat3.cars.dto.MemberResponse;
 import dat3.cars.service.MemberService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,19 +22,19 @@ public class MemberController {
     this.memberService = memberService;
   }
 
-  //Security ADMIN ONLY
+  //@PreAuthorize("hasAuthority('ADMIN')")
   @GetMapping
   public List<MemberResponse> getMembers(){
     return memberService.getMembers(true); //True --> Return all, since this is ADMIN only
   }
 
-  //Security ADMIN ONLY
+  //@PreAuthorize("hasAuthority('ADMIN')")
   @GetMapping(path = "/{username}")
   public MemberResponse getMemberById(@PathVariable String username) {
     return memberService.findMemberByUsernameAsAdmin(username);
   }
 
-  // getMemberById som member også?
+
 
   //Security ANONYMOUS
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
