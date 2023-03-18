@@ -28,7 +28,7 @@ public class CarController {
     return carService.getCars(true);
   }
 
-  @PreAuthorize("hasAuthority('USER')")
+  @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
   @GetMapping("/user")
   List<CarResponse> getCarsUser() {
     return carService.getCars(false);

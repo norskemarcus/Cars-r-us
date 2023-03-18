@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// Har det noget at sige med api foran?
+
 @RestController
 @CrossOrigin
 @RequestMapping("api/reservations")
@@ -36,17 +36,17 @@ public class ReservationController {
     return reservationService.getReservations();
   }
 
-
+/*
   @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
   @GetMapping("/{username}")
   List<ReservationResponse> getReservationsByMember(@PathVariable String username){
     return reservationService.findReservationsByMember(username);
-  }
+  }*/
 
 
-  @GetMapping("/{id}")
+/*  @GetMapping("/{id}")
   ReservationResponse getReservationById(@PathVariable Integer id){
     return reservationService.findReservationById(id);
-  }
+  }*/
 
 }

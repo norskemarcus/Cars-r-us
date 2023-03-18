@@ -80,8 +80,8 @@ public class SecurityConfig {
     http.authorizeHttpRequests((authorize) -> authorize
         //Obviously we need to be able to login without being logged in :-)
         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-        //TODO: signup
-        //.requestMatchers(HttpMethod.POST, "/api/members/add/").permitAll();
+        // Signup
+        .requestMatchers(HttpMethod.POST, "/api/members").permitAll()
 
         //Required in order to use the h2-console
         .requestMatchers("/h2*/**").permitAll()

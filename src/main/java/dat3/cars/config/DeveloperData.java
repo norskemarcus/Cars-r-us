@@ -65,14 +65,14 @@ public class DeveloperData implements ApplicationRunner {
     user.addRole(Role.USER);
     useradmin.addRole(Role.ADMIN);
 
-    /*
+
     userWithRolesRepository.save(kurt);
 
     userWithRolesRepository.save(hanne);
     userWithRolesRepository.save(admin);
     userWithRolesRepository.save(user);
     userWithRolesRepository.save(useradmin);
-*/
+
     // Reservation 1
     Car car = Car.builder().brand("Volvo").model("V70").pricePrDay(500).bestDiscount(10).build();
     LocalDate startDate = LocalDate.parse("2023-02-14");

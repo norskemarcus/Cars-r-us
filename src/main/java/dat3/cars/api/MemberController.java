@@ -28,7 +28,7 @@ public class MemberController {
     return memberService.getMembers(true); //True --> Return all, since this is ADMIN only
   }
 
-  @PreAuthorize("hasAuthority('ADMIN')")
+
   @GetMapping(path = "/{username}")
   public MemberResponse getMemberById(@PathVariable String username) {
     return memberService.findMemberByUsernameAsAdmin(username);
@@ -36,7 +36,7 @@ public class MemberController {
 
 
 
- // Anonymous TODO: how get the premission?
+ // Anonymous
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public MemberResponse addMember(@RequestBody MemberRequest body){
     return memberService.addMember(body);
