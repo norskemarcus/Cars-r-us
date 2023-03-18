@@ -121,11 +121,11 @@ public class SecurityConfig {
   }
 
   /* Initialize static value "secret" */
-  @Value("${app.secret-key}")
+  @Value("${app.secret_key}")
   private String secretKey;
   public static String tokenSecret;
 
-  @Value("${app.secret-key}")
+  @Value("${app.secret_key}")
   public void setStaticValue(String secretKey) {
     SecurityConfig.tokenSecret = secretKey;
   }
