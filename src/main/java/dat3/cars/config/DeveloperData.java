@@ -46,9 +46,9 @@ public class DeveloperData implements ApplicationRunner {
 
 
   void makeTestData() {
-    Member kurt = memberRepository.save(new Member("kurt-w", "test12", "kw@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 34", "Lyngby", "2800"));
+    Member kurt = memberRepository.save(new Member("kurt", "test12", "kw@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 34", "Lyngby", "2800"));
 
-    Member hanne = memberRepository.save(new Member("hanne-w", "test12", "hw@a.dk", "Hanne", "Wonnegut", "Lyngbyvej 34", "Lyngby", "2800"));
+    Member hanne = memberRepository.save(new Member("hanne", "test12", "hw@a.dk", "Hanne", "Wonnegut", "Lyngbyvej 34", "Lyngby", "2800"));
 
     Member admin = memberRepository.save(new Member("admin", "test12", "demo@a.dk", "Demo-admin", "Wonnegut", "Lyngbyvej 34", "Lyngby", "2800"));
 
@@ -65,12 +65,14 @@ public class DeveloperData implements ApplicationRunner {
     user.addRole(Role.USER);
     useradmin.addRole(Role.ADMIN);
 
+    /*
     userWithRolesRepository.save(kurt);
+
     userWithRolesRepository.save(hanne);
     userWithRolesRepository.save(admin);
     userWithRolesRepository.save(user);
     userWithRolesRepository.save(useradmin);
-
+*/
     // Reservation 1
     Car car = Car.builder().brand("Volvo").model("V70").pricePrDay(500).bestDiscount(10).build();
     LocalDate startDate = LocalDate.parse("2023-02-14");
