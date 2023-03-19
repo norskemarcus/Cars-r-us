@@ -64,7 +64,7 @@ public class SecurityConfig {
     //This line is added to make the h2-console work (if needed)
     http.headers().frameOptions().disable();
     http
-        /*.cors().and()*/.csrf().disable()
+        .cors().and().csrf().disable()
 
         .httpBasic(Customizer.withDefaults())
         .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
